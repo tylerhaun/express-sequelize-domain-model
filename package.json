@@ -1,0 +1,24 @@
+{
+  "name": "@tylerhaun/express-sequelize-domain-model",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test",
+    "travis": "npm run test"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.17.1",
+    "mocha": "^9.0.3",
+    "sequelize": "^6.6.5",
+    "sqlite3": "^5.0.2",
+    "supertest": "^6.1.4"
+  },
+  "dependencies": {
+    "@tylerhaun/express-http-errors": "^1.0.1",
+    "joi": "^17.4.2",
+    "lodash": "^4.17.21"
+  }
+}
