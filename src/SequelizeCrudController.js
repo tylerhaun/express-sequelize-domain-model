@@ -22,7 +22,15 @@ class SequelizeCrudController {
       throw new Error("_getModel must return a sequelize model");
     }
     //this.logger = logger.child({class: this.constructor.name})
+    //this.logger = console;
     this.logger = console;
+    if (validated.logger) {
+      this.logger = validated.logger;
+      // winston DerivedLogger class
+      if (logger.constructor.name == "DerivedLogger") {
+        this.logger = validated.logger.child({class: this.constructor.name})
+      }
+    }
   }
 
   _getModel() {
