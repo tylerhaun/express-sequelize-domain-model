@@ -10,7 +10,6 @@ const utils = require("./utils")
 class SequelizeCrudController {
 
   constructor(options) {
-    console.log("SequelizeCrudController()", options);
 
     const schema = Joi.object({
       logger: Joi.object(),
@@ -18,15 +17,12 @@ class SequelizeCrudController {
       logLevel: Joi.string().default("trace"),
     }).default({});
     const validated = Joi.attempt(options, schema);
-    console.log("validated", validated);
     this.options = validated;
 
     this.model = this._getModel()
     if (!this.model) {
       throw new Error("_getModel must return a sequelize model");
     }
-    //this.logger = logger.child({class: this.constructor.name})
-    //this.logger = console;
     this.logger = console;
     if (validated.logger) {
       this.logger = validated.logger;
@@ -64,9 +60,7 @@ class SequelizeCrudController {
     const sequelizeOptions = {
       where: _.omit(query, ["page", "pageSize", "order"]),
     }
-    console.log("sequelizeOptions", sequelizeOptions);
     Object.assign(sequelizeOptions, paginationParams, orderParams);
-    console.log("sequelizeOptions", sequelizeOptions);
     const result = await this.model.findAll(sequelizeOptions);
     return result.map(r => r.get({plain:true}));
   }
@@ -95,7 +89,6 @@ class SequelizeCrudController {
       }
     }
     const getOptions = _.pick(options, ["plain"]);
-    console.log("getOptions", getOptions);
     return record.get(getOptions);
   }
 
