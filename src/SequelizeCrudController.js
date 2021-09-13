@@ -3,19 +3,23 @@ const Joi = require("joi");
 
 const { HttpError } = require("http-errors");
 
-//const utils = require("../utils")
+const utils = require("./utils")
 //const logger = require("../Logger");
 
 
 class SequelizeCrudController {
 
   constructor(options) {
+    console.log("SequelizeCrudController()", options);
 
     const schema = Joi.object({
       logger: Joi.object(),
+      enableLogs: Joi.boolean().default(false),
       logLevel: Joi.string().default("trace"),
-    });
+    }).default({});
     const validated = Joi.attempt(options, schema);
+    console.log("validated", validated);
+    this.options = validated;
 
     this.model = this._getModel()
     if (!this.model) {
@@ -55,12 +59,14 @@ class SequelizeCrudController {
   async find(query, options) {
     this.logger.log({class: "AbstractController", parent: this.constructor.name, method: "find", level: this.options.logLevel, query})
     options = options || {};
-    //const paginationParams = utils.parsePaginationParams(query);
+    const paginationParams = utils.parsePaginationParams(query);
+    const orderParams = utils.parseOrderParams(query);
     const sequelizeOptions = {
-      where: query,
+      where: _.omit(query, ["page", "pageSize", "order"]),
     }
-    //Object.assign(sequelizeOptions, paginationParams);
-    console.log(this.model);
+    console.log("sequelizeOptions", sequelizeOptions);
+    Object.assign(sequelizeOptions, paginationParams, orderParams);
+    console.log("sequelizeOptions", sequelizeOptions);
     const result = await this.model.findAll(sequelizeOptions);
     return result.map(r => r.get({plain:true}));
   }

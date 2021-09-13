@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize');
 
-const sequelizeConfig = 'sqlite::memory:';
+//const sequelizeConfig = 'sqlite::memory:';
+const sequelizeConfig = {dialect: "sqlite", storage: "test/database.sqlite"};
 const sequelize = new Sequelize(sequelizeConfig);
 
 
