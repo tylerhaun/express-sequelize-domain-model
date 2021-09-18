@@ -23,6 +23,9 @@ const orderDirectionRegexp = /([+-]?)(.*)/g;
 function parseOrderParams(query) {
   query = query || {};
   const order = query.order;
+  if (!order) {
+    return {};
+  }
 
   var regexpResult = orderDirectionRegexp.exec(order)
   if (!regexpResult) {
