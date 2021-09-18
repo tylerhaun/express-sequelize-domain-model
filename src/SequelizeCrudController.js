@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const Joi = require("joi");
 
-const { HttpError } = require("http-errors");
+//const { HttpError } = require("@tylerhaun/express-http-errors");
 
 const utils = require("./utils")
 //const logger = require("../Logger");
@@ -82,7 +82,8 @@ class SequelizeCrudController {
     if (!record) {
       if (options.skipError != true) {
         const modelName = this.model.name.replace(/_/g, " ");
-        throw new HttpError({message: `${modelName} not found`, status: 404})
+        //throw new HttpError({message: `${modelName} not found`, status: 404})
+        throw new Error(`${modelName} not found`);
       }
       else {
         return null;
